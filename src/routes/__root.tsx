@@ -15,6 +15,19 @@ import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { Toaster } from "@/components/ui/sonner";
 
+function PendingComponent() {
+  return (
+    <div className="flex min-h-[50vh] items-center justify-center bg-background px-4" role="status" aria-live="polite">
+      <div className="flex flex-col items-center gap-4 text-center">
+        <span className="relative flex size-12 items-center justify-center rounded-full border border-primary/35 bg-primary/10" aria-hidden="true">
+          <span className="size-6 animate-spin rounded-full border-2 border-primary/25 border-t-primary" />
+        </span>
+        <p className="text-sm font-medium text-muted-foreground">Loading MOTOcare...</p>
+      </div>
+    </div>
+  );
+}
+
 function NotFoundComponent() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
@@ -87,6 +100,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "MOTOcare is a performance workshop for car customization, engine tuning, paint and full mechanical repair.",
       },
       { name: "author", content: "MOTOcare" },
+      { name: "theme-color", content: "#b9362a" },
       { property: "og:title", content: "MOTOcare — Performance Auto Service" },
       {
         property: "og:description",
@@ -115,6 +129,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   component: RootComponent,
   notFoundComponent: NotFoundComponent,
   errorComponent: ErrorComponent,
+  pendingComponent: PendingComponent,
 });
 
 function RootShell({ children }: { children: ReactNode }) {

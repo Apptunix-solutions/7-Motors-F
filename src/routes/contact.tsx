@@ -20,7 +20,10 @@ export const Route = createFileRoute("/contact")({
           "Talk to the MOTOcare team about tuning, repair or a custom build. Same-day diagnostics on most vehicles.",
       },
       { property: "og:title", content: "Contact MOTOcare" },
-      { property: "og:description", content: "Book a service, request a quote or plan your next build." },
+      {
+        property: "og:description",
+        content: "Book a service, request a quote or plan your next build.",
+      },
     ],
   }),
   component: Contact,
@@ -53,8 +56,13 @@ function Contact() {
       toast.error(result.error.issues[0]?.message ?? "Invalid input");
       return;
     }
-    toast.success("Thanks — our service desk will reply within one working day.");
-    setForm({ name: "", email: "", message: "" });
+
+    const subject = encodeURIComponent(`MOTOcare enquiry from ${result.data.name}`);
+    const body = encodeURIComponent(
+      `Name: ${result.data.name}\nEmail: ${result.data.email}\n\n${result.data.message}`,
+    );
+    window.location.href = `mailto:info@motocare.com?subject=${subject}&body=${body}`;
+    toast.success("Your email app is opening with the message ready to send.");
   };
 
   return (
@@ -72,6 +80,9 @@ function Contact() {
                 <Label htmlFor="name">Name</Label>
                 <Input
                   id="name"
+                  name="name"
+                  autoComplete="name"
+                  required
                   value={form.name}
                   maxLength={100}
                   onChange={(e) => setForm({ ...form, name: e.target.value })}
@@ -82,7 +93,10 @@ function Contact() {
                 <Label htmlFor="email">Email</Label>
                 <Input
                   id="email"
+                  name="email"
                   type="email"
+                  autoComplete="email"
+                  required
                   value={form.email}
                   maxLength={255}
                   onChange={(e) => setForm({ ...form, email: e.target.value })}
@@ -93,7 +107,9 @@ function Contact() {
                 <Label htmlFor="message">Message</Label>
                 <Textarea
                   id="message"
+                  name="message"
                   rows={5}
+                  required
                   value={form.message}
                   maxLength={1000}
                   onChange={(e) => setForm({ ...form, message: e.target.value })}

@@ -22,15 +22,19 @@ export function Newsletter() {
       toast.error(result.error.issues[0]?.message ?? "Invalid input");
       return;
     }
-    toast.success("You're subscribed — watch your inbox for build updates.");
-    setEmail("");
+    const subject = encodeURIComponent("MOTOcare newsletter subscription");
+    const body = encodeURIComponent(`Please subscribe ${result.data} to the MOTOcare newsletter.`);
+    window.location.href = `mailto:info@motocare.com?subject=${subject}&body=${body}`;
+    toast.success("Your email app is opening to confirm the subscription request.");
   };
 
   return (
     <section className="band-red relative overflow-hidden">
       <div className="container-page relative grid gap-8 py-24 md:grid-cols-2 md:items-center md:py-28">
         <Reveal>
-          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-primary-foreground/80">Our Newsletter</p>
+          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-primary-foreground/80">
+            Our Newsletter
+          </p>
           <h2 className="mt-3 font-display text-3xl font-extrabold tracking-tight md:text-[2.6rem] md:leading-[1.15] text-primary-foreground">
             Subscribe for Updates
           </h2>
@@ -46,7 +50,10 @@ export function Newsletter() {
             </label>
             <Input
               id="newsletter-email"
+              name="email"
               type="email"
+              autoComplete="email"
+              required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Your email address"
