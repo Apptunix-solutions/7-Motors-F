@@ -15,6 +15,8 @@ bun.lockb
 dist/
 build/
 .next/
+.output/
+.wrangler/
 
 # IDE
 .vscode/
