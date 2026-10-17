@@ -1,142 +1,137 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
-import { z } from "zod";
-import { toast } from "sonner";
-import { Mail, Phone, MapPin, Clock } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
+import { Clock, Instagram, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import { Reveal } from "@/components/site/Reveal";
 import { PageHero } from "@/components/site/PageHero";
+import { BookingForm } from "@/components/contact/BookingForm";
+import { ADDRESS_LINE, SITE } from "@/lib/site";
+import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/contact")({
-  head: () => ({
-    meta: [
-      { title: "Contact MOTOcare — Book a Service or Get a Quote" },
-      {
-        name: "description",
-        content:
-          "Talk to the MOTOcare team about tuning, repair or a custom build. Same-day diagnostics on most vehicles.",
-      },
-      { property: "og:title", content: "Contact MOTOcare" },
-      {
-        property: "og:description",
-        content: "Book a service, request a quote or plan your next build.",
-      },
-    ],
-  }),
+  head: () =>
+    pageHead({
+      title: `Contact & Booking — ${SITE.name}, Riyadh`,
+      description:
+        "Book a service at Seven Motors, Riyadh. Abdallah Al Fakih St, Al Faisaliyyah — open Saturday to Thursday, 8:00 AM to 5:00 PM. Call +966 56 224 4034.",
+      path: "/contact",
+    }),
   component: Contact,
 });
 
-const schema = z.object({
-  name: z.string().trim().min(1, "Name is required").max(100, "Name must be under 100 characters"),
-  email: z.string().trim().email("Enter a valid email address").max(255),
-  message: z
-    .string()
-    .trim()
-    .min(1, "Message is required")
-    .max(1000, "Message must be under 1000 characters"),
-});
-
-const details = [
-  { Icon: Mail, label: "info@motocare.com" },
-  { Icon: Phone, label: "+1 234 567 890" },
-  { Icon: MapPin, label: "London Eye, London, UK" },
-  { Icon: Clock, label: "Mon – Sat, 9 AM – 10 PM" },
-];
+const socialLinks = [
+  { label: "WhatsApp", detail: SITE.phone.label, href: SITE.whatsapp, Icon: MessageCircle },
+  { label: "Instagram", detail: "@sevenmotorsksa", href: SITE.instagram, Icon: Instagram },
+  {
+    label: "Google Maps",
+    detail: `${SITE.mapsRating.score} ★ · ${SITE.mapsRating.count} reviews`,
+    href: SITE.maps,
+    Icon: MapPin,
+  },
+] as const;
 
 function Contact() {
-  const [form, setForm] = useState({ name: "", email: "", message: "" });
-
-  const submit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const result = schema.safeParse(form);
-    if (!result.success) {
-      toast.error(result.error.issues[0]?.message ?? "Invalid input");
-      return;
-    }
-
-    const subject = encodeURIComponent(`MOTOcare enquiry from ${result.data.name}`);
-    const body = encodeURIComponent(
-      `Name: ${result.data.name}\nEmail: ${result.data.email}\n\n${result.data.message}`,
-    );
-    window.location.href = `mailto:info@motocare.com?subject=${subject}&body=${body}`;
-    toast.success("Your email app is opening with the message ready to send.");
-  };
-
   return (
     <>
       <PageHero
-        eyebrow="Contact"
-        title="Need Help?"
-        description="Contact our experts for fast and reliable service. Tell us about the car and what you want from it."
+        eyebrow="Visit us"
+        title={SITE.landmark}
+        description="Reserve a slot below — we'll confirm your appointment by WhatsApp or email."
       />
+
       <section className="section-y">
         <div className="container-page grid gap-12 lg:grid-cols-2">
           <Reveal>
-            <form onSubmit={submit} className="card-surface space-y-5 p-8">
-              <div>
-                <Label htmlFor="name">Name</Label>
-                <Input
-                  id="name"
-                  name="name"
-                  autoComplete="name"
-                  required
-                  value={form.name}
-                  maxLength={100}
-                  onChange={(e) => setForm({ ...form, name: e.target.value })}
-                  className="mt-2 bg-background"
-                />
-              </div>
-              <div>
-                <Label htmlFor="email">Email</Label>
-                <Input
-                  id="email"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  required
-                  value={form.email}
-                  maxLength={255}
-                  onChange={(e) => setForm({ ...form, email: e.target.value })}
-                  className="mt-2 bg-background"
-                />
-              </div>
-              <div>
-                <Label htmlFor="message">Message</Label>
-                <Textarea
-                  id="message"
-                  name="message"
-                  rows={5}
-                  required
-                  value={form.message}
-                  maxLength={1000}
-                  onChange={(e) => setForm({ ...form, message: e.target.value })}
-                  className="mt-2 bg-background"
-                />
-              </div>
-              <Button type="submit" size="lg" className="w-full">
-                Send Message
-              </Button>
-            </form>
+            <h2 className="text-2xl font-bold tracking-tight">Reserve your slot.</h2>
+            <p className="mb-6 mt-3 text-sm leading-relaxed text-muted-foreground">
+              Pick a service, a date and a time — we'll confirm your appointment by WhatsApp or
+              email.
+            </p>
+            <BookingForm />
           </Reveal>
 
           <Reveal delay={0.1}>
             <h2 className="text-2xl font-bold tracking-tight">Visit the workshop</h2>
-            <p className="mt-4 leading-relaxed text-muted-foreground">
-              Drop in for a walk-around, or book ahead and we'll have a bay free when you arrive.
-            </p>
-            <ul className="mt-8 space-y-4">
-              {details.map(({ Icon, label }) => (
-                <li key={label} className="flex items-center gap-4 text-muted-foreground">
-                  <span className="grid size-11 shrink-0 place-items-center rounded-full border border-border text-primary">
-                    <Icon className="size-5" aria-hidden="true" />
-                  </span>
-                  {label}
-                </li>
-              ))}
+            <p className="mt-4 leading-relaxed text-muted-foreground">{SITE.tagline}</p>
+
+            <ul className="mt-8 space-y-5">
+              <li className="flex items-start gap-4 text-muted-foreground">
+                <span className="grid size-11 shrink-0 place-items-center rounded-full border border-border text-primary-text">
+                  <MapPin className="size-5" aria-hidden="true" />
+                </span>
+                <span>
+                  <span className="block font-semibold text-foreground">Address</span>
+                  {ADDRESS_LINE}
+                </span>
+              </li>
+              <li className="flex items-start gap-4 text-muted-foreground">
+                <span className="grid size-11 shrink-0 place-items-center rounded-full border border-border text-primary-text">
+                  <Clock className="size-5" aria-hidden="true" />
+                </span>
+                <span>
+                  <span className="block font-semibold text-foreground">Open days</span>
+                  {SITE.hours.week}
+                  <span className="mt-1 block">{SITE.hours.friday}</span>
+                </span>
+              </li>
+              <li className="flex items-start gap-4 text-muted-foreground">
+                <span className="grid size-11 shrink-0 place-items-center rounded-full border border-border text-primary-text">
+                  <Phone className="size-5" aria-hidden="true" />
+                </span>
+                <span>
+                  <span className="block font-semibold text-foreground">Direct line</span>
+                  <a href={SITE.phone.href} className="transition-colors hover:text-primary-text">
+                    {SITE.phone.label}
+                  </a>
+                </span>
+              </li>
+              <li className="flex items-start gap-4 text-muted-foreground">
+                <span className="grid size-11 shrink-0 place-items-center rounded-full border border-border text-primary-text">
+                  <Mail className="size-5" aria-hidden="true" />
+                </span>
+                <span>
+                  <span className="block font-semibold text-foreground">Email</span>
+                  <a
+                    href={SITE.email.href}
+                    className="break-all transition-colors hover:text-primary-text"
+                  >
+                    {SITE.email.label}
+                  </a>
+                </span>
+              </li>
             </ul>
+
+            <div className="mt-8">
+              <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">
+                Message us & follow
+              </p>
+              <ul className="mt-4 space-y-3">
+                {socialLinks.map(({ label, detail, href, Icon }) => (
+                  <li key={label}>
+                    <a
+                      href={href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-4 text-sm text-muted-foreground transition-colors hover:text-primary-text"
+                    >
+                      <span className="grid size-9 shrink-0 place-items-center rounded-full bg-primary text-primary-foreground">
+                        <Icon className="size-4" aria-hidden="true" />
+                      </span>
+                      <span>
+                        <span className="block font-semibold text-foreground">{label}</span>
+                        {detail}
+                      </span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+              <a
+                href={SITE.maps}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-6 inline-block text-sm font-semibold text-primary-text transition-colors hover:text-primary-text-hover"
+              >
+                Open in Google Maps →
+              </a>
+            </div>
           </Reveal>
         </div>
       </section>

@@ -3,9 +3,58 @@
 import * as React from "react";
 import { ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import { DayButton, DayPicker, getDefaultClassNames } from "react-day-picker";
+import type { DropdownProps } from "react-day-picker";
 
 import { cn } from "@/lib/utils";
 import { Button, buttonVariants } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
+/**
+ * Custom Dropdown that replaces react-day-picker's native <select> with the
+ * project's Radix-based Select component so it looks identical to every other
+ * dropdown in the form — same border, popover, animation, and scroll behaviour.
+ */
+function CalendarDropdown({ value, onChange, options }: DropdownProps) {
+  const handleValueChange = (val: string) => {
+    if (!onChange) return;
+    // react-day-picker expects a ChangeEvent<HTMLSelectElement>
+    const synthetic = {
+      target: { value: val },
+    } as React.ChangeEvent<HTMLSelectElement>;
+    onChange(synthetic);
+  };
+
+  return (
+    <Select value={value?.toString()} onValueChange={handleValueChange}>
+      <SelectTrigger
+        className={cn(
+          // Compact height to fit inside the calendar header row
+          "h-8 w-auto min-w-[4.5rem] gap-1 border-input bg-muted/40 px-2.5",
+          "text-sm font-semibold focus:ring-1",
+        )}
+      >
+        <SelectValue />
+      </SelectTrigger>
+      <SelectContent>
+        {(options ?? []).map((opt) => (
+          <SelectItem
+            key={opt.value}
+            value={opt.value.toString()}
+            disabled={opt.disabled}
+          >
+            {opt.label}
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
+  );
+}
 
 function Calendar({
   className,
@@ -58,14 +107,11 @@ function Calendar({
           defaultClassNames.month_caption,
         ),
         dropdowns: cn(
-          "flex h-(--cell-size) w-full items-center justify-center gap-1.5 text-sm font-medium",
+          // Container for the two CalendarDropdown selects (month + year)
+          "flex h-(--cell-size) w-full items-center justify-center gap-2",
           defaultClassNames.dropdowns,
         ),
-        dropdown_root: cn(
-          "has-focus:border-ring border-input shadow-xs has-focus:ring-ring/50 has-focus:ring-[3px] relative rounded-md border",
-          defaultClassNames.dropdown_root,
-        ),
-        dropdown: cn("bg-popover absolute inset-0 opacity-0", defaultClassNames.dropdown),
+        // dropdown_root / dropdown are unused — CalendarDropdown overrides entirely
         caption_label: cn(
           "select-none font-medium",
           captionLayout === "label"
@@ -112,11 +158,9 @@ function Calendar({
           if (orientation === "left") {
             return <ChevronLeftIcon className={cn("size-4", className)} {...props} />;
           }
-
           if (orientation === "right") {
             return <ChevronRightIcon className={cn("size-4", className)} {...props} />;
           }
-
           return <ChevronDownIcon className={cn("size-4", className)} {...props} />;
         },
         DayButton: CalendarDayButton,
@@ -129,6 +173,8 @@ function Calendar({
             </td>
           );
         },
+        // Replace the native <select> with our branded Radix Select
+        Dropdown: CalendarDropdown,
         ...components,
       }}
       {...props}
