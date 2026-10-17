@@ -1,4 +1,4 @@
-# Contributing to MOTOcare
+# Contributing to the Seven Motors website
 
 We appreciate your interest in contributing! Here's how to get started.
 

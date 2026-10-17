@@ -17,6 +17,8 @@ build/
 .next/
 .output/
 .wrangler/
+.vercel/
+.tanstack/
 
 # IDE
 .vscode/

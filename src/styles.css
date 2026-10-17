@@ -2,10 +2,8 @@
 @source "../src";
 @import "tw-animate-css";
 
-/*
- * MOTOcare design system — dark industrial automotive.
- * All colors are oklch tokens. Never hardcode colors in components.
- */
+/* Class-based dark mode (the `.dark` class on <html>). */
+@custom-variant dark (&:where(.dark, .dark *));
 
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
@@ -25,6 +23,8 @@
   --color-primary-foreground: var(--primary-foreground);
   --color-primary-bright: var(--primary-bright);
   --color-primary-deep: var(--primary-deep);
+  --color-primary-text: var(--primary-text);
+  --color-primary-text-hover: var(--primary-text-hover);
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
   --color-muted: var(--muted);
@@ -45,58 +45,180 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
-  --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Baloo 2", "DM Sans", ui-sans-serif, system-ui, sans-serif;
-  --shadow-glow: 0 0 30px -5px oklch(0.58 0.22 17 / 0.35);
-  --shadow-glow-lg: 0 0 60px -10px oklch(0.58 0.22 17 / 0.5);
+  --font-sans: "DM Sans", "IBM Plex Sans Arabic", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Baloo 2", "Cairo", "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-sans-ar: "IBM Plex Sans Arabic", "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-display-ar: "Cairo", "Baloo 2", "IBM Plex Sans Arabic", ui-sans-serif, system-ui, sans-serif;
+  --shadow-glow: 0 0 30px -5px oklch(58% 0.22 17 / 0.35);
+  --shadow-glow-lg: 0 0 60px -10px oklch(58% 0.22 17 / 0.5);
 }
 
+/* ---------- Default Theme: Identical to motocare-f.vercel.app ---------- */
 :root {
   --radius: 0.5rem;
-  --background: oklch(0.135 0.002 20);
-  --foreground: oklch(0.99 0 0);
-  --card: oklch(0.175 0.004 20);
-  --card-foreground: oklch(0.99 0 0);
-  --elevated: oklch(0.225 0.003 285);
-  --popover: oklch(0.185 0.002 285);
-  --popover-foreground: oklch(0.99 0 0);
-  --primary: oklch(0.525 0.205 25);
-  --primary-foreground: oklch(0.99 0 0);
-  --primary-bright: oklch(0.6 0.225 28);
-  --primary-deep: oklch(0.38 0.155 24);
-  --secondary: oklch(0.24 0.002 285);
-  --secondary-foreground: oklch(0.99 0 0);
-  --muted: oklch(0.24 0.002 285);
-  --muted-foreground: oklch(0.7 0.005 285);
-  --accent: oklch(0.26 0.02 20);
-  --accent-foreground: oklch(0.99 0 0);
-  --destructive: oklch(0.6 0.24 27);
-  --destructive-foreground: oklch(0.99 0 0);
-  --border: oklch(0.28 0.004 285);
-  --input: oklch(0.28 0.004 285);
-  --ring: oklch(0.58 0.22 17);
-  --sidebar: oklch(0.185 0.002 285);
-  --sidebar-foreground: oklch(0.99 0 0);
-  --sidebar-primary: oklch(0.58 0.22 17);
-  --sidebar-primary-foreground: oklch(0.99 0 0);
-  --sidebar-accent: oklch(0.24 0.002 285);
-  --sidebar-accent-foreground: oklch(0.99 0 0);
-  --sidebar-border: oklch(0.28 0.004 285);
-  --sidebar-ring: oklch(0.58 0.22 17);
+  --background: oklch(13.5% 0.002 20);
+  --foreground: oklch(99% 0 0);
+  --card: oklch(17.5% 0.004 20);
+  --card-foreground: oklch(99% 0 0);
+  --elevated: oklch(22.5% 0.003 285);
+  --popover: oklch(18.5% 0.002 285);
+  --popover-foreground: oklch(99% 0 0);
+  --primary: oklch(52.5% 0.205 25);
+  --primary-foreground: oklch(99% 0 0);
+  --primary-bright: oklch(60% 0.225 28);
+  --primary-deep: oklch(38% 0.155 24);
+  --primary-text: #f4505a;
+  --primary-text-hover: #ff6b73;
+  --secondary: oklch(24% 0.002 285);
+  --secondary-foreground: oklch(99% 0 0);
+  --muted: oklch(24% 0.002 285);
+  --muted-foreground: oklch(70% 0.005 285);
+  --accent: oklch(26% 0.02 20);
+  --accent-foreground: oklch(99% 0 0);
+  --destructive: oklch(60% 0.24 27);
+  --destructive-foreground: oklch(99% 0 0);
+  --border: oklch(28% 0.004 285);
+  --input: oklch(28% 0.004 285);
+  --ring: oklch(58% 0.22 17);
+  --sidebar: oklch(18.5% 0.002 285);
+  --sidebar-foreground: oklch(99% 0 0);
+  --sidebar-primary: oklch(58% 0.22 17);
+  --sidebar-primary-foreground: oklch(99% 0 0);
+  --sidebar-accent: oklch(24% 0.002 285);
+  --sidebar-accent-foreground: oklch(99% 0 0);
+  --sidebar-border: oklch(28% 0.004 285);
+  --sidebar-ring: oklch(58% 0.22 17);
 
   --gradient-red: linear-gradient(
     115deg,
-    oklch(0.3 0.12 24) 0%,
-    oklch(0.525 0.205 25) 55%,
-    oklch(0.24 0.08 24) 100%
+    oklch(30% 0.12 24) 0%,
+    oklch(52.5% 0.205 25) 55%,
+    oklch(24% 0.08 24) 100%
   );
-  --gradient-hero: radial-gradient(
+  --gradient-brand: var(--gradient-red);
+  --gradient-hero:
+    radial-gradient(
       100% 80% at 78% 45%,
-      oklch(0.5 0.19 25 / 0.62) 0%,
-      oklch(0.3 0.12 24 / 0.35) 42%,
+      oklch(50% 0.19 25 / 0.62) 0%,
+      oklch(30% 0.12 24 / 0.35) 42%,
       transparent 68%
     ),
-    linear-gradient(180deg, oklch(0.135 0.002 20) 0%, oklch(0.16 0.03 24) 100%);
+    linear-gradient(180deg, oklch(13.5% 0.002 20) 0%, oklch(16% 0.03 24) 100%);
+
+  --scrollbar-track: transparent;
+  --scrollbar-thumb: rgba(128, 22, 22, 0.16);
+  --scrollbar-thumb-hover: oklch(52.5% 0.205 25 / 0.85);
+}
+
+/* Light Theme override (when light mode is explicitly active) */
+html:not(.dark):not(:has(.dark)) {
+  --background: #f4f4f6;
+  --foreground: #161617;
+  --card: #ffffff;
+  --card-foreground: #161617;
+  --elevated: #ffffff;
+  --popover: #ffffff;
+  --popover-foreground: #161617;
+  --primary: oklch(52.5% 0.205 25);
+  --primary-foreground: #ffffff;
+  --primary-bright: oklch(60% 0.225 28);
+  --primary-deep: oklch(38% 0.155 24);
+  --primary-text: oklch(52.5% 0.205 25);
+  --primary-text-hover: oklch(60% 0.225 28);
+  --secondary: #ececef;
+  --secondary-foreground: #161617;
+  --muted: #ececef;
+  --muted-foreground: #55555c;
+  --accent: #f7e9ea;
+  --accent-foreground: #7a0209;
+  --destructive: #b30511;
+  --destructive-foreground: #ffffff;
+  --border: #e2e2e8;
+  --input: #d8d8df;
+  --ring: oklch(52.5% 0.205 25);
+  --sidebar: #ffffff;
+  --sidebar-foreground: #161617;
+  --sidebar-primary: oklch(52.5% 0.205 25);
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #ececef;
+  --sidebar-accent-foreground: #161617;
+  --sidebar-border: #e2e2e8;
+  --sidebar-ring: oklch(52.5% 0.205 25);
+
+  --gradient-red: linear-gradient(
+    115deg,
+    oklch(38% 0.155 24) 0%,
+    oklch(52.5% 0.205 25) 55%,
+    oklch(30% 0.12 24) 100%
+  );
+  --gradient-brand: var(--gradient-red);
+  --gradient-hero:
+    radial-gradient(
+      100% 80% at 78% 45%,
+      oklch(52.5% 0.205 25 / 0.14) 0%,
+      oklch(38% 0.155 24 / 0.07) 42%,
+      transparent 68%
+    ),
+    linear-gradient(180deg, #f4f4f6 0%, #ececef 100%);
+
+  --scrollbar-track: transparent;
+  --scrollbar-thumb: rgba(0, 0, 0, 0.16);
+  --scrollbar-thumb-hover: oklch(52.5% 0.205 25 / 0.8);
+}
+
+/* Explicit .dark class re-applies dark tokens */
+.dark {
+  --background: oklch(13.5% 0.002 20);
+  --foreground: oklch(99% 0 0);
+  --scrollbar-track: transparent;
+  --scrollbar-thumb: rgba(255, 255, 255, 0.16);
+  --scrollbar-thumb-hover: oklch(52.5% 0.205 25 / 0.85);
+  --card: oklch(17.5% 0.004 20);
+  --card-foreground: oklch(99% 0 0);
+  --elevated: oklch(22.5% 0.003 285);
+  --popover: oklch(18.5% 0.002 285);
+  --popover-foreground: oklch(99% 0 0);
+  --primary: oklch(52.5% 0.205 25);
+  --primary-foreground: oklch(99% 0 0);
+  --primary-bright: oklch(60% 0.225 28);
+  --primary-deep: oklch(38% 0.155 24);
+  --primary-text: #f4505a;
+  --primary-text-hover: #ff6b73;
+  --secondary: oklch(24% 0.002 285);
+  --secondary-foreground: oklch(99% 0 0);
+  --muted: oklch(24% 0.002 285);
+  --muted-foreground: oklch(70% 0.005 285);
+  --accent: oklch(26% 0.02 20);
+  --accent-foreground: oklch(99% 0 0);
+  --destructive: oklch(60% 0.24 27);
+  --destructive-foreground: oklch(99% 0 0);
+  --border: oklch(28% 0.004 285);
+  --input: oklch(28% 0.004 285);
+  --ring: oklch(58% 0.22 17);
+  --sidebar: oklch(18.5% 0.002 285);
+  --sidebar-foreground: oklch(99% 0 0);
+  --sidebar-primary: oklch(58% 0.22 17);
+  --sidebar-primary-foreground: oklch(99% 0 0);
+  --sidebar-accent: oklch(24% 0.002 285);
+  --sidebar-accent-foreground: oklch(99% 0 0);
+  --sidebar-border: oklch(28% 0.004 285);
+  --sidebar-ring: oklch(58% 0.22 17);
+
+  --gradient-red: linear-gradient(
+    115deg,
+    oklch(30% 0.12 24) 0%,
+    oklch(52.5% 0.205 25) 55%,
+    oklch(24% 0.08 24) 100%
+  );
+  --gradient-brand: var(--gradient-red);
+  --gradient-hero:
+    radial-gradient(
+      100% 80% at 78% 45%,
+      oklch(50% 0.19 25 / 0.62) 0%,
+      oklch(30% 0.12 24 / 0.35) 42%,
+      transparent 68%
+    ),
+    linear-gradient(180deg, oklch(13.5% 0.002 20) 0%, oklch(16% 0.03 24) 100%);
 }
 
 @layer base {
@@ -104,15 +226,49 @@
     border-color: var(--color-border);
   }
 
+  /* ─── Scroll root: only <html> ever scrolls the page ─────────────────── */
   html {
     scroll-behavior: smooth;
+    /* Reserve the scrollbar gutter permanently — prevents any layout shift
+       when Radix overlays (Select, Dialog, Sheet, Command…) open/close. */
+    scrollbar-gutter: stable;
+    overflow-y: scroll;
   }
 
+  /* body must NEVER be a scroll container — doing so creates a second,
+     nested scrollbar. Keep it as a natural flow element. */
   body {
+    overflow: visible;
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
+  }
+
+  /* ─── Neutralise react-remove-scroll / Radix scroll-lock ──────────────── */
+  /* Radix applies data-scroll-locked + overflow:hidden to <body> (and
+     sometimes <html>) when any overlay opens. We override only what is
+     needed so the scrollbar on <html> stays visible and the layout never
+     jumps. We do NOT force overflow-y:scroll on body (that causes a second
+     scrollbar); we simply stop it from hiding the real one. */
+  html[data-scroll-locked] {
+    overflow-y: scroll !important;
+    margin-right: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  body[data-scroll-locked] {
+    /* Allow body's lock to exist but make it invisible (no scroll bar) */
+    overflow: hidden !important;
+    /* Cancel any margin/padding compensation — the scrollbar gutter on
+       <html> already accounts for the gutter width. */
+    margin-right: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  /* Zero the CSS variable react-remove-scroll uses to shift layout */
+  :root {
+    --removed-body-scroll-bar-size: 0px !important;
   }
 
   h1,
@@ -120,7 +276,33 @@
   h3,
   .font-display {
     font-family: var(--font-display);
-    letter-spacing: -0.01em;
+    letter-spacing: -0.025em;
+  }
+
+  /* ─── Premium Arabic Typography (IBM Plex Sans Arabic + Cairo) ────────── */
+  :is(html[lang="ar"], html.lang-ar, [dir="rtl"]),
+  :is(html[lang="ar"], html.lang-ar, [dir="rtl"]) * {
+    --font-sans: var(--font-sans-ar);
+    --font-display: var(--font-display-ar);
+  }
+
+  :is(html[lang="ar"], html.lang-ar, [dir="rtl"]) {
+    font-family: var(--font-sans-ar);
+  }
+
+  :is(html[lang="ar"], html.lang-ar, [dir="rtl"]) body {
+    font-family: var(--font-sans-ar);
+    line-height: 1.6;
+  }
+
+  :is(html[lang="ar"], html.lang-ar, [dir="rtl"]) :is(h1, h2, h3, h4, h5, h6, .font-display) {
+    font-family: var(--font-display-ar) !important;
+    letter-spacing: 0 !important;
+    line-height: 1.35;
+  }
+
+  :is(html[lang="ar"], html.lang-ar, [dir="rtl"]) :is(p, span, a, button, input, textarea, select, label, .font-sans) {
+    letter-spacing: 0;
   }
 
   ::selection {
@@ -128,23 +310,157 @@
     color: var(--primary-foreground);
   }
 
-  ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+  /* Overlay scroll lock neutrality from cair-turbo */
+  html body[data-scroll-locked],
+  html body[data-radix-scroll-lock],
+  body[data-scroll-locked] {
+    overscroll-behavior: auto !important;
+    pointer-events: auto !important;
+    margin-right: 0 !important;
+    padding-right: 0 !important;
+    position: static !important;
+    overflow: auto !important;
   }
-  ::-webkit-scrollbar-track {
-    background: var(--background);
+
+  /* Smooth transition fallback for browsers without View Transitions */
+  html.theme-transitioning,
+  html.theme-transitioning *,
+  html.theme-transitioning *::before,
+  html.theme-transitioning *::after {
+    transition: background-color 250ms ease, border-color 250ms ease, color 200ms ease, fill 200ms ease !important;
+    transition-delay: 0s !important;
   }
-  ::-webkit-scrollbar-thumb {
-    background: var(--primary);
-    border-radius: 9999px;
-  }
-  ::-webkit-scrollbar-thumb:hover {
-    background: var(--primary-bright);
-  }
-  * {
+}
+
+/* ─── Top-Level Custom Scrollbar (exact CAiR Turbo architecture) ─────────
+   CRITICAL: Do NOT declare `scrollbar-color` or `scrollbar-width` on WebKit/Chromium!
+   In Chrome/Edge 121+, declaring `scrollbar-color` forces Chromium to disable all
+   `::-webkit-scrollbar*` styling and fall back to native Windows scrollbars with
+   top and bottom arrow buttons. Restricting standard CSS scrollbars to Firefox
+   via `@supports not selector(::-webkit-scrollbar)` ensures Chrome/Edge exclusively
+   uses the arrow-free WebKit engine.
+────────────────────────────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 9999px;
+  transition: background-color 200ms ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover);
+}
+
+/* Arrow suppression */
+::-webkit-scrollbar-button,
+::-webkit-scrollbar-button:single-button,
+::-webkit-scrollbar-button:vertical:decrement,
+::-webkit-scrollbar-button:vertical:increment,
+::-webkit-scrollbar-button:horizontal:decrement,
+::-webkit-scrollbar-button:horizontal:increment {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent !important;
+}
+
+/* Firefox only (which never displays arrow buttons) */
+@supports not selector(::-webkit-scrollbar) {
+  html,
+  body {
     scrollbar-width: thin;
-    scrollbar-color: var(--primary) var(--background);
+    scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+  }
+}
+
+/* ── Command Dialog & Dialog Close strict RTL/LTR separation ────────── */
+:is(html[lang="ar"], html.lang-ar, [dir="rtl"]) [data-slot="dialog-close"],
+:is(html[lang="ar"], html.lang-ar, [dir="rtl"]) .dialog-close-btn {
+  left: 1rem !important;
+  right: auto !important;
+  inset-inline-start: 1rem !important;
+  inset-inline-end: auto !important;
+}
+
+:is(html[lang="en"], html:not(.lang-ar), [dir="ltr"]) [data-slot="dialog-close"],
+:is(html[lang="en"], html:not(.lang-ar), [dir="ltr"]) .dialog-close-btn {
+  right: 1rem !important;
+  left: auto !important;
+  inset-inline-end: 1rem !important;
+  inset-inline-start: auto !important;
+}
+
+:is(html[lang="ar"], html.lang-ar, [dir="rtl"]) [cmdk-input-wrapper] {
+  direction: rtl !important;
+  padding-inline-start: 0.75rem !important;
+  padding-inline-end: 2.75rem !important;
+}
+
+:is(html[lang="en"], html:not(.lang-ar), [dir="ltr"]) [cmdk-input-wrapper] {
+  direction: ltr !important;
+  padding-inline-start: 0.75rem !important;
+  padding-inline-end: 2.75rem !important;
+}
+
+/* ── View Transition: circular reveal from theme toggle button (CAiR Turbo) ── */
+::view-transition-group(root) {
+  animation-duration: 0.5s;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+::view-transition-image-pair(root) {
+  isolation: isolate;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(root) {
+  z-index: 1;
+}
+
+::view-transition-new(root) {
+  z-index: 9999;
+  animation: theme-circle-reveal 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.dark::view-transition-new(root) {
+  animation: theme-circle-reveal-dark 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes theme-circle-reveal {
+  from {
+    clip-path: circle(0% at var(--theme-toggle-x, 90%) var(--theme-toggle-y, 5%));
+  }
+  to {
+    clip-path: circle(150% at var(--theme-toggle-x, 90%) var(--theme-toggle-y, 5%));
+  }
+}
+
+@keyframes theme-circle-reveal-dark {
+  from {
+    clip-path: circle(0% at var(--theme-toggle-x, 90%) var(--theme-toggle-y, 5%));
+  }
+  to {
+    clip-path: circle(150% at var(--theme-toggle-x, 90%) var(--theme-toggle-y, 5%));
   }
 }
 
@@ -170,12 +486,28 @@
   }
 }
 
+@utility gradient-hero {
+  background-image: var(--gradient-hero);
+}
+
 @utility gradient-red {
   background-image: var(--gradient-red);
 }
 
-@utility gradient-hero {
-  background-image: var(--gradient-hero);
+@utility gradient-brand {
+  background-image: var(--gradient-brand);
+}
+
+@utility band-red {
+  position: relative;
+  background-image: var(--gradient-red);
+  clip-path: polygon(0 3.5rem, 100% 0, 100% calc(100% - 3.5rem), 0 100%);
+}
+
+@utility band-brand {
+  position: relative;
+  background-image: var(--gradient-brand);
+  clip-path: polygon(0 3.5rem, 100% 0, 100% calc(100% - 3.5rem), 0 100%);
 }
 
 @utility card-surface {
@@ -204,16 +536,6 @@
   color: var(--primary);
 }
 
-@utility wave-bottom {
-  clip-path: ellipse(140% 100% at 50% 0%);
-}
-
-@utility band-red {
-  position: relative;
-  background-image: var(--gradient-red);
-  clip-path: polygon(0 3.5rem, 100% 0, 100% calc(100% - 3.5rem), 0 100%);
-}
-
 @utility heading-rule {
   &::after {
     content: "";
@@ -237,9 +559,42 @@
   height: 3.5rem;
   border-radius: 9999px;
   color: var(--primary);
-  background: color-mix(in oklab, var(--primary) 14%, transparent);
-  border: 1px solid color-mix(in oklab, var(--primary) 35%, transparent);
+  background: color-mix(in oklab, var(--primary) 12%, transparent);
+  border: 1px solid color-mix(in oklab, var(--primary) 32%, transparent);
   transition:
     background 0.3s ease,
     transform 0.3s ease;
+}
+
+@utility brand-logo {
+  display: block;
+  height: 2.75rem;
+  width: auto;
+}
+:root:not(.dark) .brand-logo {
+  filter: invert(1);
+}
+
+@keyframes marquee-x {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@utility marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee-x 38s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+  }
+  html {
+    scroll-behavior: auto;
+  }
 }
